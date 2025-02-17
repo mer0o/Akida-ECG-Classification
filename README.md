@@ -5,24 +5,33 @@ A comprehensive pipeline for training, quantizing, and converting neural network
 ## Project Structure
 
 ```
+project_root/
 ├── Dockerfile           # Container configuration for reproducible environment
 ├── requirements.txt     # Python dependencies
-├── utils.py            # Common utility functions
-├── cnn_trainer.py      # CNN model creation and training
+├── utils.py             # Common utility functions
+├── cnn_trainer.py       # CNN model creation and training
 ├── quantization_handler.py  # Model quantization pipeline
-├── akida_converter.py  # Akida conversion and evaluation
-├── config.py           # Central configuration parameters
-└── legacy_combined     # Initial combined code before separation and refactoring
+├── akida_converter.py   # Akida conversion and evaluation
+├── config.py            # Central configuration parameters
+├── __init__.py          # Python package initialization
+├── tf_init.py           # TensorFlow initialization and setup
+├── models/              # Directory for saved models
+│   ├── cnn/             # CNN model artifacts
+│   ├── quantized/       # Quantized model versions
+├── datasets/            # Datasets storage, ADD THE X_train2.npy HERE BEFORE STARTING.
+├── tests/               # Unit and integration tests
+└── legacy_combined/     # Initial combined code before separation and refactoring
 ```
 
 ## Setup
+1. Manually Add X_train2.npy to the datasetsfolder Before beginning
 
-1. Build the Docker container:
+2. Build the Docker container:
 ```bash
 docker build --platform linux/amd64 -t akida_env .
 ```
 
-2. Run the container:
+3. Run the container:
 ```bash
 docker run -it --platform linux/amd64 -v $(pwd):/app akida_env
 ```
