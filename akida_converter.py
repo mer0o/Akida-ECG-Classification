@@ -1,5 +1,6 @@
 """Handles Akida conversion and evaluation"""
 
+import tf_init
 from cnn2snn import convert, check_model_compatibility
 import tensorflow as tf
 from utils import load_datasets, preprocess_for_quantization, evaluate_model
@@ -8,8 +9,22 @@ from config import *
 
 def convert_to_akida(model_path):
     """Converts quantized model to Akida format and evaluates it"""
-    # Load quantized model
-    model = tf.keras.models.load_model(model_path)
+    # Load quantized model with compatibility options
+    try:
+        # First attempt: standard loading
+        model = tf.keras.models.load_model(model_path)
+    except TypeError as e:
+        if "fn" in str(e):
+            print("Handling compatibility issue with model loading...")
+            # Second attempt: with custom_objects to handle compatibility issues
+            model = tf.keras.models.load_model(
+                model_path, 
+                compile=False,
+                custom_objects={}
+            )
+        else:
+            # If it's a different TypeError, re-raise it
+            raise
     
     # Check compatibility
     print("Model compatible for Akida conversion:", check_model_compatibility(model))
