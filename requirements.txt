@@ -1,9 +1,9 @@
 # python=3.11.0
-akida
-quantizeml
-cnn2snn
-akida-models
-tensorflow
+akida==2.11.0
+quantizeml==0.13.1
+cnn2snn==2.11.0
+akida-models==1.6.1
+tensorflow==2.15.0
 keras
 keras_tuner
 tensorflow_model_optimization
@@ -11,4 +11,3 @@ pandas
 scikit-learn
 matplotlib
 seaborn
-
