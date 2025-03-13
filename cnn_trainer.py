@@ -8,7 +8,8 @@ from sklearn.metrics import accuracy_score, f1_score
 from config import *
 
 # Choose whether to save the model
-SAVE_MODEL = True
+SAVE_MODEL = False
+MODEL_VERSION = "1.0"
 
 
 def create_cnn_model():
@@ -78,7 +79,7 @@ def train_and_evaluate():
     plot_confusion_matrix(y_test, predictions, "Original CNN Model")
     
     # Save model if required
-    model_path = os.path.join(MODEL_DIR, 'cnn/cnn_model.h5')
+    model_path = os.path.join(MODEL_DIR, f'cnn/cnn_model_{MODEL_VERSION}.h5')
     if SAVE_MODEL:
         model.save(model_path)
         print(f"Model saved to {model_path}")
