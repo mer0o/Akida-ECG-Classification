@@ -1,5 +1,6 @@
 """Handles Akida conversion and evaluation"""
 
+import os
 import tf_init
 from cnn2snn import convert, check_model_compatibility
 import tensorflow as tf
@@ -7,11 +8,14 @@ from utils import load_datasets, preprocess_for_quantization, evaluate_model
 from visualization import plot_confusion_matrix, plot_sample_prediction
 from config import *
 
+import numpy as np
+
 def convert_to_akida(model_path):
     """Converts quantized model to Akida format and evaluates it"""
     # Load quantized model with compatibility options
     try:
         # First attempt: standard loading
+        print("Loading model...")
         model = tf.keras.models.load_model(model_path)
     except TypeError as e:
         if "fn" in str(e):
@@ -27,13 +31,18 @@ def convert_to_akida(model_path):
             raise
     
     # Check compatibility
-    print("Model compatible for Akida conversion:", check_model_compatibility(model))
+    # print("Model compatible for Akida conversion:", check_model_compatibility(model))
     
     # Convert to Akida
+    print("Converting model to Akida format...")
     model_akida = convert(model)
+    model_akida.summary()
     
     # Load and preprocess test data
-    _, _, _, _, X_test, y_test = load_datasets(DATA_DIR)
+    # _, _, _, _, X_test, y_test = load_datasets(DATA_DIR)
+    data_dir = DATA_DIR
+    y_test = np.load(os.path.join(data_dir, 'y_test2.npy'))
+    X_test = np.load(os.path.join(data_dir, 'X_test2.npy'))
     X_test_q = preprocess_for_quantization(X_test)
     X_test_batched = X_test_q.astype('uint8').reshape(-1, 128, 128, 1)
     
