@@ -2,4 +2,4 @@
 __pycache__/
 old/
 .DS_Store
-datasets/X_train2.npy
+*.npy
