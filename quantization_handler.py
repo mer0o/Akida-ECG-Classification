@@ -10,6 +10,7 @@ from config import *
 
 SAVE_Q_MODEL = True
 PREPROCESS_DATA = False
+MODEL_VERSION = "1.0"   # Model version for saving
 RUN_PARAMETER = "(No Preprocessing, no batch size q_fit)"
     
 def quantize_model(model_path):
@@ -113,7 +114,7 @@ def quantize_model(model_path):
     print("-" * 50)
     
     # Save quantized model if needed
-    quantized_path = os.path.join(MODEL_DIR, 'quantized/quantized_model.h5')
+    quantized_path = os.path.join(MODEL_DIR, f'quantized/quantized_model_{MODEL_VERSION}.h5')
     
     if SAVE_Q_MODEL:
         quantized_model.save(quantized_path)
